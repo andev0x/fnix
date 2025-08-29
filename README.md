@@ -23,13 +23,31 @@ This repository contains my personal Nix flake for managing system configuration
 
 Before proceeding, ensure you have Nix installed on your system and that [Nix flakes are enabled](https://nixos.wiki/wiki/Flakes#Enable_flakes).
 
+### Mount (simulator)
+lsblk
+Partition
+sudo parted /dev/vda -- mklabel gpt
+sudo parted /dev/vda -- mkpart ESP fat32 1MiB 512MiB
+sudo parted /dev/vda -- set 1 esp on
+sudo parted /dev/vda -- mkpart primary ext4 512MiB 100%
+Format
+sudo mkfs.fat -F 32 /dev/vda1
+sudo mkfs.ext4 /dev/vda2
+Mount /mnt
+sudo mount /dev/vda2 /mnt
+sudo mkdir -p /mnt/boot
+sudo mount /dev/vda1 /mnt/boot
+
+### Install :w
+
+
 ### Cloning the Repository
 
 First, clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/nix-config.git # Replace with your repository URL
-cd nix-config
+git clone https://github.com/andev0x/fnix.git
+cd fnix
 ```
 
 ### NixOS Systems
@@ -84,4 +102,6 @@ To adapt these configurations for your own system, you will typically:
     *   Update `dotfiles/` with your preferred dotfiles.
     *   Create new modules in `modules/` for reusable components.
 
-Remember to replace `your-username/nix-config.git` with your actual repository URL if you fork this project.
+Remember to replace `andev0x/fnix.git` with your actual repository URL if you fork this project.
+
+> Thanks to Kunkka for sharing the config
